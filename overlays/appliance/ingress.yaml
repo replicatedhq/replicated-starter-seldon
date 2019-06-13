@@ -1,0 +1,9 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  backend:
+    serviceName: example-nginx
+    servicePort: 80
