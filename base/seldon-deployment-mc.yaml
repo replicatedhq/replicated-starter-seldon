@@ -1,0 +1,33 @@
+---
+apiVersion: machinelearning.seldon.io/v1alpha2
+kind: SeldonDeployment
+metadata:
+  labels:
+    app: seldon
+  name: "mean-classifier"
+spec:
+  name: "mean-classifier"
+  predictors:
+    - componentSpecs:
+        - spec:
+            imagePullSecrets:
+              - replicatedregistrykey
+            containers:
+              - image: "registry.replicated.com/seldonstarter/mean_classifier_rest:1.2"
+                imagePullPolicy: IfNotPresent
+                name: "mean-classifier"
+                resources:
+                  requests:
+                    memory: 100Mi
+            terminationGracePeriodSeconds: 1
+
+      graph:
+        children: []
+        name: "mean-classifier"
+        type: MODEL
+        endpoint:
+          type: REST
+      name: "mean-classifier"
+      replicas: 1
+      labels:
+        version: v1

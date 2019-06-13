@@ -9,9 +9,6 @@ lint_reporter := console
 APPLIANCE_APP_ID := CHANGEME
 APPLIANCE_CHANNEL := Unstable
 
-SHIP_APP_ID := CHANGEME
-SHIP_CHANNEL := Nightly
-
 VERSION_TAG := "0.1.0-dev-${USER}"
 
 # Replace this with your private or public ship repo in github
@@ -37,70 +34,16 @@ deps-vendor-cli:
 
 lint-appliance: deps-lint
 	`npm bin`/replicated-lint validate -f replicated.yaml --reporter $(lint_reporter)
-lint-ship: deps-lint
-	`npm bin`/replicated-lint validate --project replicatedShip -f ship.yaml --reporter $(lint_reporter)
 
-lint: lint-appliance lint-ship
+lint: lint-appliance
 
 release-appliance: clean-assets lint-appliance deps-vendor-cli
 	mkdir -p tmp
-	kustomize build overlays/appliance | awk '/---/{print;print "# kind: scheduler-kubernetes";next}1' > tmp/k8s.yaml
+	kustomize build base | awk '/^---/{print;print "# kind: scheduler-kubernetes";next}1' > tmp/k8s.yaml
 	cat replicated.yaml tmp/k8s.yaml | deps/replicated release create \
 	        --app $(APPLIANCE_APP_ID) \
 		--yaml - \
 		--promote $(APPLIANCE_CHANNEL) \
 	        --version $(VERSION_TAG) \
 	        --release-notes $(RELEASE_NOTES)
-
-release-ship: clean-assets lint-ship deps-vendor-cli
-	cat ship.yaml | deps/replicated release create \
-	    --app $(SHIP_APP_ID) \
-	    --yaml - \
-	    --promote $(SHIP_CHANNEL) \
-	    --version $(VERSION_TAG) \
-	    --release-notes $(RELEASE_NOTES)
-
-run-local: clean-assets lint-ship
-	mkdir -p tmp
-	cd tmp && \
-	$(SHIP) app \
-	    --runbook $(REPO_PATH)/ship.yaml  \
-	    --set-github-contents $(REPO):/base:master:$(REPO_PATH) \
-	    --set-github-contents $(REPO):/scripts:master:$(REPO_PATH) \
-	    --set-channel-icon $(ICON) \
-	    --set-channel-name $(APP_NAME) \
-	    --log-level=off
-	@$(MAKE) print-generated-assets
-
-run-local-headless: clean-assets lint-ship
-	mkdir -p tmp
-	cd tmp && \
-	$(SHIP) app \
-	    --runbook $(REPO_PATH)/ship.yaml  \
-	    --set-github-contents $(REPO):/base:master:$(REPO_PATH) \
-	    --set-github-contents $(REPO):/scripts:master:$(REPO_PATH) \
-	    --headless \
-	    --log-level=error
-	@$(MAKE) print-generated-assets
-
-deploy-ship:
-	@echo
-	@echo  ┌─────────────┐
-	@echo "│  Deploying  │"
-	@echo  └─────────────┘
-	@echo
-	@sleep .5
-	kubectl apply -f tmp/rendered.yaml
-
-print-generated-assets:
-	@echo
-	@echo  ┌────────────────────┐
-	@echo "│  Generated Assets  │"
-	@echo  └────────────────────┘
-	@echo
-	@sleep .5
-	@find tmp -maxdepth 3 -type file
-
-clean-assets:
-	rm -rf tmp/*
 
