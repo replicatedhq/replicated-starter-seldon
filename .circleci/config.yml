@@ -33,7 +33,7 @@ jobs:
           mv kustomize_*_${opsys}_amd64 kustomize
           chmod u+x kustomize
           sudo mv kustomize /usr/local/bin/
-      - run: make release CHANNEL=unstable
+      - run: make release CHANNEL=Unstable
 
 workflows:
   version: 2
