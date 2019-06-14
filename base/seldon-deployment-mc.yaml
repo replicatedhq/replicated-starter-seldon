@@ -1,5 +1,5 @@
 ---
-apiVersion: machinelearning.seldon.io/v1alpha2
+apiVersion: machinelearning.seldon.io/v1alpha3
 kind: SeldonDeployment
 metadata:
   labels:
@@ -11,7 +11,7 @@ spec:
     - componentSpecs:
         - spec:
             imagePullSecrets:
-              - replicatedregistrykey
+              - name: replicatedregistrykey
             containers:
               - image: "registry.replicated.com/seldonstarter/mean_classifier_rest:1.2"
                 imagePullPolicy: IfNotPresent

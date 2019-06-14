@@ -1,3 +1,4 @@
+namespace: '{{repl Namespace}}'
 resources:
   - ./seldon-core-operator/rendered.yaml
   - ./seldon-deployment-mc.yaml

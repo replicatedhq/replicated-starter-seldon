@@ -3,7 +3,7 @@ SHELL := /bin/bash -o pipefail
 lint_reporter := console
 
 APP_ID := seldonstarter
-CHANNEL := Unstable
+CHANNEL := dex-dev
 
 VERSION_TAG := "0.1.0-dev-${USER}"
 RELEASE_NOTES := "Automated release by ${USER} on $(shell date)"

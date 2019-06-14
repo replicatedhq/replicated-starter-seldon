@@ -2,19 +2,19 @@
 # kind: replicated
 
 replicated_api_version: 2.29.0
-name: "Kubernetes Nginx Example"
+name: "Seldon Starter PoC"
 
 properties:
   app_url: http://{{repl ConfigOption "hostname" }}
-  console_title: "Kubernetes Nginx Example"
+  console_title: "Seldon Starter PoC"
 
 host_requirements:
   replicated_version: ">=2.29.0"
 
 kubernetes:
   requirements:
-    total_cores: "2"
-    total_memory: 8GB
+    total_cores: "1"
+    total_memory: 4GB
 
 config:
 - name: basic_config
@@ -30,24 +30,11 @@ config:
       display_name: Check DNS
       command: resolve_host
 
-- name: server
-  title: Server Config
-  items:
-    - name: db_url
-      title: Database URL
-      type: text
-      required: true
-      default: postgres://pg.somebigbank.com/my_database?username=xxx&password=yyy
-    - name: nginx_memory
-      title: Nginx Memory
-      type: text
-      default: 100Mi
-
 images:
 # this section needs to be included for airgap installs
-- name: k8s.gcr.io/echoserver
-  source: public
-  tag: "1.4"
+- name: mock_classifier_rest
+  source: replicated
+  tag: "1.2"
 
 ---
 # kind: scheduler-kubernetes
