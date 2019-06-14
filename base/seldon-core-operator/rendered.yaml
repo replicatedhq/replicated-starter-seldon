@@ -5296,10 +5296,25 @@ spec:
     served: true
     storage: false
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: seldon-core-operator
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: seldon-core-operator
+    helm.sh/chart: seldon-core-operator-0.3.1-SNAPSHOT
+  name: seldon-core-operator
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   creationTimestamp: null
+  labels:
+    app.kubernetes.io/instance: seldon-core-operator
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: seldon-core-operator
+    helm.sh/chart: seldon-core-operator-0.3.1-SNAPSHOT
   name: seldon-operator-manager-role
 rules:
 - apiGroups:
@@ -5423,6 +5438,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
+  labels:
+    app.kubernetes.io/instance: seldon-core-operator
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: seldon-core-operator
+    helm.sh/chart: seldon-core-operator-0.3.1-SNAPSHOT
   name: seldon-operator-manager-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -5430,7 +5450,7 @@ roleRef:
   name: seldon-operator-manager-role
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: seldon-core-operator
   namespace: default
 ---
 apiVersion: v1
@@ -5443,8 +5463,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
+    app.kubernetes.io/instance: seldon-core-operator
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: seldon-core-operator
     control-plane: controller-manager
     controller-tools.k8s.io: "1.0"
+    helm.sh/chart: seldon-core-operator-0.3.1-SNAPSHOT
   name: seldon-operator-controller-manager-service
   namespace: default
 spec:
@@ -5458,13 +5482,19 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
+    app.kubernetes.io/instance: seldon-core-operator
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: seldon-core-operator
     control-plane: controller-manager
     controller-tools.k8s.io: "1.0"
+    helm.sh/chart: seldon-core-operator-0.3.1-SNAPSHOT
   name: seldon-operator-controller-manager
   namespace: default
 spec:
   selector:
     matchLabels:
+      app.kubernetes.io/instance: seldon-core-operator
+      app.kubernetes.io/name: seldon-core-operator
       control-plane: controller-manager
       controller-tools.k8s.io: "1.0"
   serviceName: seldon-operator-controller-manager-service
@@ -5473,6 +5503,8 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
       labels:
+        app.kubernetes.io/instance: seldon-core-operator
+        app.kubernetes.io/name: seldon-core-operator
         control-plane: controller-manager
         controller-tools.k8s.io: "1.0"
     spec:
@@ -5528,7 +5560,7 @@ spec:
         - mountPath: /tmp/cert
           name: cert
           readOnly: true
-      serviceAccountName: default
+      serviceAccountName: seldon-core-operator
       terminationGracePeriodSeconds: 10
       volumes:
       - name: cert
