@@ -32,7 +32,7 @@ jobs:
             xargs curl -O -L
           mv kustomize_*_${opsys}_amd64 kustomize
           chmod u+x kustomize
-          mv kustomize /usr/local/bin/
+          sudo mv kustomize /usr/local/bin/
       - run: make release CHANNEL=unstable
 
 workflows:
