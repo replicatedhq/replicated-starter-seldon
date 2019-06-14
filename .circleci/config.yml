@@ -23,6 +23,16 @@ jobs:
       - image: circleci/node:8.7
     steps:
       - checkout
+      - run: |
+          opsys=linux
+          curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
+            grep browser_download |\
+            grep $opsys |\
+            cut -d '"' -f 4 |\
+            xargs curl -O -L
+          mv kustomize_*_${opsys}_amd64 kustomize
+          chmod u+x kustomize
+          mv kustomize /usr/local/bin/
       - run: make release CHANNEL=unstable
 
 workflows:
