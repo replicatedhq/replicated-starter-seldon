@@ -2,8 +2,7 @@ SHELL := /bin/bash -o pipefail
 
 lint_reporter := console
 
-APP_ID := seldonstarter
-CHANNEL := dex-dev
+CHANNEL := Unstable
 
 VERSION_TAG := "0.1.0-dev-${USER}"
 RELEASE_NOTES := "Automated release by ${USER} on $(shell date)"
@@ -27,11 +26,10 @@ lint: deps-lint
 
 
 .PHONY: release
-release:  lint deps-vendor-cli
+release: deps-vendor-cli
 	mkdir -p tmp
 	kustomize build base | awk '/^---/{print;print "# kind: scheduler-kubernetes";next}1' > tmp/k8s.yaml
 	cat replicated.yaml tmp/k8s.yaml | deps/replicated release create \
-	        --app $(APP_ID) \
 		--yaml - \
 		--promote $(CHANNEL) \
 	        --version $(VERSION_TAG) \
