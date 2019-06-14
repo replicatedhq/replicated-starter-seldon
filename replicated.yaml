@@ -5,11 +5,11 @@ replicated_api_version: 2.29.0
 name: "Seldon Starter PoC"
 
 properties:
-  app_url: http://{{repl ConfigOption "hostname" }}
+  # app_url: https://{{repl ConfigOption "hostname" }}
   console_title: "Seldon Starter PoC"
 
 host_requirements:
-  replicated_version: ">=2.29.0"
+  replicated_version: ">=2.37.0"
 
 kubernetes:
   requirements:
