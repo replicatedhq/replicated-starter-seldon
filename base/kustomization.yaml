@@ -2,3 +2,5 @@ namespace: '{{repl Namespace}}'
 resources:
   - ./seldon-core-operator/rendered.yaml
   - ./seldon-deployment-mc.yaml
+patches:
+  - ./seldon-core-operator-nodeport.yaml

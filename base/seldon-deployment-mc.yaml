@@ -13,7 +13,7 @@ spec:
             imagePullSecrets:
               - name: replicatedregistrykey
             containers:
-              - image: "registry.replicated.com/seldonstarter/mean_classifier_rest:1.2"
+              - image: "registry.replicated.com/seldonstarter/mock_classifier_rest:1.2"
                 imagePullPolicy: IfNotPresent
                 name: "mean-classifier"
                 resources:
