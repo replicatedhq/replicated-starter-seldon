@@ -32,7 +32,7 @@ config:
 
 images:
 # this section needs to be included for airgap installs
-- name: mock_classifier_rest
+- name: issue-summarization
   source: replicated
   tag: "1.2"
 
