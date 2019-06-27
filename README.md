@@ -42,12 +42,6 @@ Next, create an API token from the [Teams and Tokens](https://vendor.replicated.
 Ensure the token has "Write" access or you'll be unable create new releases. Once you have the values,
 set them in your environment.
 
-You can ensure this is working with
-
-```
-make list-releases
-```
-
 #### Iterating on your release
 
 Once you've made changes to `replicated.yaml`, you can push a new release to a channel with
