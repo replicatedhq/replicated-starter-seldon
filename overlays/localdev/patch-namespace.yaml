@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: issue-summarization-ui
+spec:
+  template:
+    spec:
+      containers:
+        - args:
+            - app.py
+            - --model_url
+            - http://issue-summarization-issue-summarization.default.svc.cluster.local:8000/api/v0.1/predictions
+          name: issue-summarization-ui
+

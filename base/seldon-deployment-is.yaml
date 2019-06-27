@@ -4,9 +4,9 @@ kind: SeldonDeployment
 metadata:
   labels:
     app: seldon
-  name: "mean-classifier"
+  name: "issue-summarization"
 spec:
-  name: "mean-classifier"
+  name: "issue-summarization"
   predictors:
     - componentSpecs:
         - spec:
@@ -15,7 +15,7 @@ spec:
             containers:
               - image: "registry.replicated.com/seldonstarter/issue-summarization:1.2"
                 imagePullPolicy: IfNotPresent
-                name: "mean-classifier"
+                name: "issue-summarization"
                 resources:
                   requests:
                     memory: 100Mi
@@ -23,11 +23,11 @@ spec:
 
       graph:
         children: []
-        name: "mean-classifier"
+        name: "issue-summarization"
         type: MODEL
         endpoint:
           type: REST
-      name: "mean-classifier"
+      name: "issue-summarization"
       replicas: 1
       labels:
         version: v1

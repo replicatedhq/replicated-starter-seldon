@@ -19,9 +19,10 @@ spec:
   ports:
   - port: 80
     targetPort: 80
+    nodePort: 8008
   selector:
     app: issue-summarization-ui
-  type: ClusterIP
+  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,7 +45,7 @@ spec:
       - args:
         - app.py
         - --model_url
-        - http://issue-summarization-2-issue-summarization-2.default.svc.cluster.local:8000/api/v0.1/predictions
+        - http://issue-summarization-issue-summarization.{{repl Namespace}}.svc.cluster.local:8000/api/v0.1/predictions
         command:
         - python
         env:

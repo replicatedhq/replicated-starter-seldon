@@ -1,5 +1,6 @@
 namespace: '{{repl Namespace}}'
 resources:
   - ./seldon-core/rendered.yaml
+  - ./seldon-core-crd/rendered.yaml
   - ./seldon-deployment-is.yaml
   - ./issue-summarization-ui.yaml
