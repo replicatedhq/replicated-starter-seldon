@@ -76,12 +76,14 @@ make lint release
 
 ### Adding ML Models
 
-There is an example model written as a `SeldonDeployment` in `base/seldon-deployment-mc.yaml`. You can change the image there, or add additional
+There is an example model written as a `SeldonDeployment` in `base/seldon-deployment-is.yaml`. You can change the image there, or add additional
 `SeldonDeployment` objects in that folder. You'll also need to add them to the list of `resources` in `base/kustomization.yaml`.
 
-The [source of the example ML model being deployed](./mean_classifier_example) image is from the Seldon core Examples, and is reproduced here.
+A github issue summarization model, as described in [kubeflow/examples](https://github.com/kubeflow/examples/tree/master/github_issue_summarization), is used for this POC. A makefile is included to pull and retag a GCR.io image to the replicated registry.
 
 The [Seldon operator chart](https://github.com/SeldonIO/seldon-core/tree/master/helm-charts/seldon-core-operator) is templated out by [Replicated Ship](https://github.com/replicatedhq/ship) in `base/seldon-core-operator/rendered.yaml`, and will be deployed alongside the app to power any `SeldonDeployment`s.
+
+Issue summarization UI built per example in https://github.com/kubeflow/examples/blob/master/github_issue_summarization/04_querying_the_model.md
 
 ### Integrating with CI
 

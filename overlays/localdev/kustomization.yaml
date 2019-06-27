@@ -1,0 +1,5 @@
+namespace: default
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - ./patch-ambassador-loadbalancer.yaml

@@ -1,0 +1,56 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v0
+      kind:  Mapping
+      name:  issue_summarization_ui
+      prefix: /issue-summarization/
+      rewrite: /
+      service: issue-summarization-ui:80
+  labels:
+    ksonnet.io/component: ui
+  name: issue-summarization-ui
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: issue-summarization-ui
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    ksonnet.io/component: ui
+  name: issue-summarization-ui
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: issue-summarization-ui
+  template:
+    metadata:
+      labels:
+        app: issue-summarization-ui
+    spec:
+      containers:
+      - args:
+        - app.py
+        - --model_url
+        - http://issue-summarization-2-issue-summarization-2.default.svc.cluster.local:8000/api/v0.1/predictions
+        command:
+        - python
+        env:
+        - name: GITHUB_TOKEN
+          value: ""
+        image: gcr.io/kubeflow-examples/issue-summarization-ui:v20180629-v0.1-2-g98ed4b4-dirty-182929
+        name: issue-summarization-ui
+        ports:
+        - containerPort: 80
