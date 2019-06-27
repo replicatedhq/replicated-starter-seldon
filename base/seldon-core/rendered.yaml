@@ -441,14 +441,14 @@ metadata:
 spec:
   ports:
   - name: http
-    nodePort: 30080
+    nodePort: 80
     port: 80
     protocol: TCP
     targetPort: 8080
   - name: https
-    nodePort: 30443
     port: 443
     protocol: TCP
+    nodePort: 443
     targetPort: 8443
   selector:
     app.kubernetes.io/instance: seldon-core
