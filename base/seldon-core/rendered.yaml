@@ -531,6 +531,10 @@ spec:
               fieldPath: status.hostIP
         - name: AMBASSADOR_SINGLE_NAMESPACE
           value: "YES"
+        - name: STATSD_ENABLED
+          value: "true"
+        - name: STATSD_HOST
+          value: "{{repl StatsdAddress}}"
         - name: AMBASSADOR_NAMESPACE
           valueFrom:
             fieldRef:
