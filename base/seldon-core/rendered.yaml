@@ -289,6 +289,7 @@ rules:
   - services
   - secrets
   - endpoints
+  - configmaps
   verbs:
   - get
   - list
@@ -524,6 +525,10 @@ spec:
     spec:
       containers:
       - env:
+        - name: STATSD_ENABLED
+          value: "true"
+        - name: STATSD_HOST
+          value: '{{repl StatsdAddress}}'
         - name: HOST_IP
           valueFrom:
             fieldRef:
@@ -835,24 +840,3 @@ spec:
       resources:
         requests:
           storage: 8Gi
----
-apiVersion: v1
-kind: Pod
-metadata:
-  annotations:
-    helm.sh/hook: test-success
-  labels:
-    app.kubernetes.io/instance: seldon-core
-    app.kubernetes.io/managed-by: Tiller
-    app.kubernetes.io/name: ambassador
-    helm.sh/chart: ambassador-2.11.0
-  name: seldon-core-ambassador-test-ready
-spec:
-  containers:
-  - args:
-    - seldon-core-ambassador:80/ambassador/v0/check_ready
-    command:
-    - wget
-    image: busybox
-    name: wget
-  restartPolicy: Never
