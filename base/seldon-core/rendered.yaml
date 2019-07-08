@@ -560,7 +560,7 @@ spec:
             path: /ambassador/v0/check_ready
             port: admin
           initialDelaySeconds: 30
-          periodSeconds: 3
+          periodSeconds: 5
         resources:
           limits:
             cpu: 1
