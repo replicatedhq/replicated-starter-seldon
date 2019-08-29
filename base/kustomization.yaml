@@ -4,3 +4,6 @@ resources:
   - ./seldon-core-crd/rendered.yaml
   - ./seldon-deployment-is.yaml
   - ./issue-summarization-ui.yaml
+
+patchesStrategicMerge:
+  - patch-statsd-enabled.yaml

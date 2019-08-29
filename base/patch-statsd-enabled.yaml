@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seldon-core-ambassador
+spec:
+  template:
+    spec:
+      containers:
+        - name: ambassador
+          env:
+            - name: STATSD_ENABLED
+              value: "true"
+            - name: STATSD_HOST
+              value: '{{repl index (Split StatsdAddress ":") 0}}'
